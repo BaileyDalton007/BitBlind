@@ -1,8 +1,9 @@
 name: bitblind
 channels:
-  - defaults
-  - nvidia
   - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
 dependencies:
   - python=3.10
   - transformers
