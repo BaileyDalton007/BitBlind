@@ -7,17 +7,12 @@ import numpy as np
 sys.path.append(os.path.abspath("../utils"))
 from image_tools import render_text
 
+
+
 def normalize_text(text):
     return ''.join(c.lower() for c in text if c.isalnum())
 
-def theta_to_params(theta):
-    return {
-        "per_char_rot_std": np.clip(abs(theta[0])*10, 0, 15),
-        "kerning_std": np.clip(theta[1]*5, -10, 10),
-        "baseline_amp": np.clip(theta[2]*10, 0, 20),
-        "baseline_freq": np.clip(theta[3], 0.1, 1.0),
-        "y_jitter_std": np.clip(theta[4]*5, 0, 10)
-    }
+
 
 def compute_loss(
     pred_text,
@@ -31,20 +26,20 @@ def compute_loss(
     pred_norm = normalize_text(pred_text)
     truth_norm = normalize_text(truth_text)
 
-    # --- Confidence term (primary driver) ---
+    # confidence term (primary driver)
     if len(symbol_confs) > 0:
         mean_conf = sum(symbol_confs) / len(symbol_confs)
         conf_term = 1.0 - mean_conf
     else:
         conf_term = 1.0  # nothing detected
 
-    # --- Soft normalized edit distance ---
+    # soft normalized edit distance
     if len(truth_norm) == 0:
         ned = 1.0
     else:
         ned = Levenshtein.distance(pred_norm, truth_norm) / len(truth_norm)
 
-    # --- Soft detection term ---
+    # soft detection term
     detection_term = 1.0 / (1.0 + word_count)
 
     loss = (
@@ -53,7 +48,9 @@ def compute_loss(
         + gamma * detection_term
     )
 
-    return 5* loss
+    return loss
+
+
 
 def nes_step(
     theta,
@@ -61,7 +58,10 @@ def nes_step(
     lr,
     n_samples,
     truth_text,
-    query_google_vision,
+    query_function,
+    loss_function,
+    rendering_function,
+    param_mapping_function,
 ):
     """
     Performs one NES update step.
@@ -78,16 +78,16 @@ def nes_step(
 
         # ----- Positive direction -----
         theta_pos = theta + sigma * eps
-        params_pos = theta_to_params(theta_pos)
+        params_pos = param_mapping_function(theta_pos)
 
-        img_pos = render_text(
+        img_pos = rendering_function(
             text=truth_text,
             params=params_pos
         )
 
-        res_pos = query_google_vision(img_pos)
+        res_pos = query_function(img_pos)
 
-        loss_pos = compute_loss(
+        loss_pos = loss_function(
             res_pos["text"],
             truth_text,
             res_pos["symbol_confs"],
@@ -96,14 +96,14 @@ def nes_step(
 
         # ----- Negative direction -----
         theta_neg = theta - sigma * eps
-        params_neg = theta_to_params(theta_neg)
+        params_neg = param_mapping_function(theta_neg)
 
         img_neg = render_text(
             text=truth_text,
             params=params_neg
         )
 
-        res_neg = query_google_vision(img_neg)
+        res_neg = query_function(img_neg)
 
         loss_neg = compute_loss(
             res_neg["text"],
@@ -124,10 +124,18 @@ def nes_step(
 
     return theta_new, np.mean(losses)
 
+
+
+
 def optimize(
     theta_init,
     truth_text,
+
     query_function,
+    loss_function,
+    rendering_function,
+    param_mapping_function,
+
     steps=200,
     sigma=0.1,
     lr=0.05,
@@ -142,9 +150,12 @@ def optimize(
             lr,
             n_samples,
             truth_text,
-            query_function
+            query_function,
+            loss_function,
+            rendering_function,
+            param_mapping_function
         )
 
-        print(f"Step {step:03d} | Loss: {loss:.4f}")
+        print(f"Step {step:03d} | Loss: {loss:.4f} | Theta: {theta}")
 
     return theta
