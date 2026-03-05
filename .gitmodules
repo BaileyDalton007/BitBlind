@@ -1,3 +1,3 @@
 [submodule "deep-text-recognition-benchmark"]
-	path = deep-text-recognition-benchmark
+	path = ocr/white_box_dtrb/deep-text-recognition-benchmark
 	url = https://github.com/clovaai/deep-text-recognition-benchmark.git

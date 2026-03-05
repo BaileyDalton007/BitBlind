@@ -1,6 +1,8 @@
 test.py
 test.ipynb
-saved_models/*
+*.pth
+
+*.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
