@@ -1,0 +1,16 @@
+%WER 2600.00 [ 26 / 1, 25 ins, 0 del, 1 sub ]
+%SER 100.00 [ 1 / 1 ]
+Scored 1 sentences, 0 not present in hyp.
+================================================================================
+ALIGNMENTS
+
+Format:
+<utterance-id>, WER DETAILS
+<eps> ; reference  ; on ; the ; first ;  line
+  I   ;     S      ; =  ;  =  ;   S   ;   D  
+ and  ; hypothesis ; on ; the ; third ; <eps>
+================================================================================
+obama_test_video_short_input, %WER 2600.00 [ 26 / 1, 25 ins, 0 del, 1 sub ]
+UNKNOWN  ; <eps> ; <eps> ; <eps> ;  <eps>  ; <eps>  ; <eps> ; <eps> ;   <eps>    ; <eps> ; <eps> ; <eps> ;    <eps>    ; <eps>  ; <eps> ; <eps> ; <eps>  ; <eps> ; <eps> ; <eps> ; <eps> ; <eps>  ; <eps> ; <eps> ;  <eps>  ; <eps> 
+   S     ;   I   ;   I   ;   I   ;    I    ;   I    ;   I   ;   I   ;     I      ;   I   ;   I   ;   I   ;      I      ;   I    ;   I   ;   I   ;   I    ;   I   ;   I   ;   I   ;   I   ;   I    ;   I   ;   I   ;    I    ;   I   
+HONESTLY ;  WHAT ;  THEY ;  SAY  ; DOESN'T ; BOTHER ;   ME  ;   I   ; UNDERSTAND ; WE'VE ;  GOT  ;   AN  ; ADVERSARIAL ; SYSTEM ;  I'M  ;   A   ; MELLOW ;  SORT ;   OF  ;  GUY  ;  AND  ; THAT'S ;  WHY  ;   I   ; INVITED ; LUTHER

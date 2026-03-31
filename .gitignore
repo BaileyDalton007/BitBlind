@@ -1,6 +1,9 @@
 test.py
 test.ipynb
 *.pth
+asr/data
+asr/tokenizers
+asr/trainings
 
 *.json
 

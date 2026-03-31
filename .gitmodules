@@ -1,3 +1,15 @@
 [submodule "deep-text-recognition-benchmark"]
 	path = ocr/white_box_dtrb/deep-text-recognition-benchmark
 	url = https://github.com/clovaai/deep-text-recognition-benchmark.git
+[submodule "asr/asr_transferability"]
+	path = asr/asr_transferability
+	url = https://github.com/RaphaelOlivier/asr_transferability
+[submodule "asr/robust_speech"]
+	path = asr/robust_speech
+	url = https://github.com/RaphaelOlivier/robust_speech
+[submodule "asr/fairseq"]
+	path = asr/fairseq
+	url = https://github.com/facebookresearch/fairseq
+[submodule "asr/whisper_attack"]
+	path = asr/whisper_attack
+	url = https://github.com/RaphaelOlivier/whisper_attack
